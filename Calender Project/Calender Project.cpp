@@ -16,7 +16,7 @@ int getUserYear()
 	cin >> userYear;
 
 	// Validate year
-	while (userYear <= 1753)
+	while (userYear < 1753)
 	{
 		cout << "Please enter in a year after Dec 31, 1752: ";
 		cin >> userYear;
