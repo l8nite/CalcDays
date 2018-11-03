@@ -6,9 +6,7 @@
 
 using namespace std;
 
-int startMonth = 1;
-int currentYear;
-int leapDays = 0;
+int getDaysInMonth(int userYear, int userMonth);
 
 /************************************
 * Get the user inputed year
@@ -20,7 +18,7 @@ int getUserYear()
 	cin >> userYear;
 
 	// Validate year
-	while (userYear <= 1753)
+	while (userYear < 1753)
 	{
 		cout << "Please enter in a year after Dec 31, 1752: ";
 		cin >> userYear;
@@ -66,25 +64,13 @@ bool isLeapYear(int userYear)
 ****************************************************/
 int getTotalMonthDays(int userYear, int userMonth)
 {
-	int monthDays;
 	int numMonthDays = 0;
 
 	for (int currentMonth = 1; currentMonth < userMonth; currentMonth++)
 	{
-		if (currentMonth == 1 || currentMonth == 3 || currentMonth == 5 || currentMonth == 7 || currentMonth == 8 || currentMonth == 10 || currentMonth == 12)
-			monthDays = 31;
-		else if (currentMonth == 4 || currentMonth == 6 || currentMonth == 9 || currentMonth == 11)
-			monthDays = 30;
-		else if (currentMonth == 2)
-		{
-			if ((userYear % 4 == 0 && userYear % 100 != 0) || (userYear % 400 == 0))
-				monthDays = 29;
-			else
-				monthDays = 28;
-		}
-		numMonthDays += monthDays;
+		numMonthDays += getDaysInMonth(userYear, currentMonth);
 	}
-	
+
 	return numMonthDays;
 }
 
@@ -92,7 +78,7 @@ int getTotalMonthDays(int userYear, int userMonth)
 * Calculate # of days that have passed between start
 * year and user entered year
 ****************************************************/
-int getDaysInTheYear(int currentYear)
+int getDaysInYear(int currentYear)
 {
 	bool isLeap = isLeapYear(currentYear);
 	int daysInYear;
@@ -117,12 +103,11 @@ int getDaysInMonth(int userYear, int userMonth)
 {
 	int days;
 
-	if (userMonth == 1 || userMonth == 3 || userMonth == 5 
+	if (userMonth == 1 || userMonth == 3 || userMonth == 5
 		|| userMonth == 7 || userMonth == 8 || userMonth == 10 || userMonth == 12)
 	{
 		days = 31;
 	}
-
 	else if (userMonth == 2)
 	{
 		if (isLeapYear(userYear))
@@ -134,39 +119,44 @@ int getDaysInMonth(int userYear, int userMonth)
 			days = 28;
 		}
 	}
-
 	else if (userMonth == 4 || userMonth == 6 || userMonth == 9 || userMonth == 11)
 	{
 		days = 30;
 	}
+
 	return days;
+}
+
+int getTotalDaysBetweenStartDateAndUserInput(int userYear, int userMonth)
+{
+	int numDays = 0;
+
+	for (int currentYear = 1753; currentYear < userYear; currentYear++)
+	{
+		numDays += getDaysInYear(currentYear);
+	}
+
+	numDays += getTotalMonthDays(userYear, userMonth);
+
+	return numDays;
 }
 
 /**********************************************************
 * Calculate Offset
 ***********************************************************/
-int getOffset(int userMonth, int userYear)
+int getOffset(int userYear, int userMonth)
 {
-	int numDays = 0;
-
-		// Figure out how many days are in each year
-			for (int currentYear = 1753; currentYear < userYear; currentYear++)
-			{
-				numDays += getDaysInTheYear(currentYear);
-			}
-			for (int currentMonth = 1; currentMonth < userMonth; currentMonth++)
-			{
-				numDays += getDaysInMonth(currentMonth, userYear);
-			}
-		int offset = numDays % 7;
-		return offset;
+	int numDays = getTotalDaysBetweenStartDateAndUserInput(userYear, userMonth);
+	// Figure out how many days are in each year
+	int offset = numDays % 7;
+	return offset;
 }
 
 /**********************************************************
 * This will display the calender
 ***********************************************************/
 void calenderHead(int userMonth, int userYear)
-{	
+{
 	if (userMonth == 1)
 		cout << "January, " <<  userYear << endl;
 	else if (userMonth == 2)
@@ -200,7 +190,7 @@ void calenderHead(int userMonth, int userYear)
 ***********************************************************/
 void displayTable(int numDays, int offset)
 {
-	
+
 	int day;
 	int blankSpace = (offset + 1) % 7;
 
@@ -208,7 +198,7 @@ void displayTable(int numDays, int offset)
 	{
 		cout << "    ";
 	}
-	
+
 	for (int day = 1; day <= numDays; day++)
 	{
 		cout << setw(4) << day;
@@ -223,7 +213,7 @@ void displayTable(int numDays, int offset)
 int main()
 {
 	// User entered month
-	int userMonth = getUserMonth();	
+	int userMonth = getUserMonth();
 
 	// User entered year
 	int userYear = getUserYear();
@@ -235,7 +225,7 @@ int main()
 	int offset = getOffset(userYear, userMonth);
 
 	// How many days are in the year
-	int daysInYear = getDaysInTheYear(userYear);
+	int daysInYear = getDaysInYear(userYear);
 
 	// How many days are in the year from Jan -> user Month
 	int totalDaysInMonthYear = getTotalMonthDays(userYear, userMonth);
@@ -251,7 +241,8 @@ int main()
 	cout << "daysInYear: " << daysInYear << "\n";
 	cout << "Offset: " << offset << "\n";
 	cout << "total days from  Jan -> userMonth: " << totalDaysInMonthYear << endl;
-	
+	cout << "total days from start to user input: " << getTotalDaysBetweenStartDateAndUserInput(userYear, userMonth);
+
     return 0;
 }
 
