@@ -62,23 +62,11 @@ bool isLeapYear(int userYear)
 ****************************************************/
 int getTotalMonthDays(int userYear, int userMonth)
 {
-	int monthDays;
 	int numMonthDays = 0;
 
 	for (int currentMonth = 1; currentMonth < userMonth; currentMonth++)
 	{
-		if (currentMonth == 1 || currentMonth == 3 || currentMonth == 5 || currentMonth == 7 || currentMonth == 8 || currentMonth == 10 || currentMonth == 12)
-			monthDays = 31;
-		else if (currentMonth == 4 || currentMonth == 6 || currentMonth == 9 || currentMonth == 11)
-			monthDays = 30;
-		else if (currentMonth == 2)
-		{
-			if ((userYear % 4 == 0 && userYear % 100 != 0) || (userYear % 400 == 0))
-				monthDays = 29;
-			else
-				monthDays = 28;
-		}
-		numMonthDays += monthDays;
+		numMonthDays += getDaysInMonth(userYear, currentMonth);
 	}
 
 	return numMonthDays;
