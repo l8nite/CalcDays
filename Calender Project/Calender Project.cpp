@@ -6,6 +6,8 @@
 
 using namespace std;
 
+int getDaysInMonth(int userYear, int userMonth);
+
 /************************************
 * Get the user inputed year
 ************************************/
@@ -125,24 +127,29 @@ int getDaysInMonth(int userYear, int userMonth)
 	return days;
 }
 
-/**********************************************************
-* Calculate Offset
-***********************************************************/
-int getOffset(int userMonth, int userYear)
+int getTotalDaysBetweenStartDateAndUserInput(int userYear, int userMonth)
 {
 	int numDays = 0;
 
-		// Figure out how many days are in each year
-			for (int currentYear = 1753; currentYear < userYear; currentYear++)
-			{
-				numDays += getDaysInYear(currentYear);
-			}
-			for (int currentMonth = 1; currentMonth < userMonth; currentMonth++)
-			{
-				numDays += getDaysInMonth(currentMonth, userYear);
-			}
-		int offset = numDays % 7;
-		return offset;
+	for (int currentYear = 1753; currentYear < userYear; currentYear++)
+	{
+		numDays += getDaysInYear(currentYear);
+	}
+
+	numDays += getTotalMonthDays(userYear, userMonth);
+
+	return numDays;
+}
+
+/**********************************************************
+* Calculate Offset
+***********************************************************/
+int getOffset(int userYear, int userMonth)
+{
+	int numDays = getTotalDaysBetweenStartDateAndUserInput(userYear, userMonth);
+	// Figure out how many days are in each year
+	int offset = numDays % 7;
+	return offset;
 }
 
 /**********************************************************
@@ -234,6 +241,7 @@ int main()
 	cout << "daysInYear: " << daysInYear << "\n";
 	cout << "Offset: " << offset << "\n";
 	cout << "total days from  Jan -> userMonth: " << totalDaysInMonthYear << endl;
+	cout << "total days from start to user input: " << getTotalDaysBetweenStartDateAndUserInput(userYear, userMonth);
 
     return 0;
 }
