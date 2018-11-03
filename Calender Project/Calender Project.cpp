@@ -80,7 +80,7 @@ int getTotalMonthDays(int userYear, int userMonth)
 		}
 		numMonthDays += monthDays;
 	}
-	
+
 	return numMonthDays;
 }
 
@@ -113,7 +113,7 @@ int getDaysInMonth(int userYear, int userMonth)
 {
 	int days;
 
-	if (userMonth == 1 || userMonth == 3 || userMonth == 5 
+	if (userMonth == 1 || userMonth == 3 || userMonth == 5
 		|| userMonth == 7 || userMonth == 8 || userMonth == 10 || userMonth == 12)
 	{
 		days = 31;
@@ -162,7 +162,7 @@ int getOffset(int userMonth, int userYear)
 * This will display the calender
 ***********************************************************/
 void calenderHead(int userMonth, int userYear)
-{	
+{
 	if (userMonth == 1)
 		cout << "January, " <<  userYear << endl;
 	else if (userMonth == 2)
@@ -196,7 +196,7 @@ void calenderHead(int userMonth, int userYear)
 ***********************************************************/
 void displayTable(int numDays, int offset)
 {
-	
+
 	int day;
 	int blankSpace = (offset + 1) % 7;
 
@@ -204,7 +204,7 @@ void displayTable(int numDays, int offset)
 	{
 		cout << "    ";
 	}
-	
+
 	for (int day = 1; day <= numDays; day++)
 	{
 		cout << setw(4) << day;
@@ -219,7 +219,7 @@ void displayTable(int numDays, int offset)
 int main()
 {
 	// User entered month
-	int userMonth = getUserMonth();	
+	int userMonth = getUserMonth();
 
 	// User entered year
 	int userYear = getUserYear();
@@ -247,7 +247,7 @@ int main()
 	cout << "daysInYear: " << daysInYear << "\n";
 	cout << "Offset: " << offset << "\n";
 	cout << "total days from  Jan -> userMonth: " << totalDaysInMonthYear << endl;
-	
+
     return 0;
 }
 
