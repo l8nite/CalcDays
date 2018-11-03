@@ -6,10 +6,6 @@
 
 using namespace std;
 
-int startMonth = 1;
-int currentYear;
-int leapDays = 0;
-
 /************************************
 * Get the user inputed year
 ************************************/
