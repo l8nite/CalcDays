@@ -88,7 +88,7 @@ int getTotalMonthDays(int userYear, int userMonth)
 * Calculate # of days that have passed between start
 * year and user entered year
 ****************************************************/
-int getDaysInTheYear(int currentYear)
+int getDaysInYear(int currentYear)
 {
 	bool isLeap = isLeapYear(currentYear);
 	int daysInYear;
@@ -118,7 +118,6 @@ int getDaysInMonth(int userYear, int userMonth)
 	{
 		days = 31;
 	}
-
 	else if (userMonth == 2)
 	{
 		if (isLeapYear(userYear))
@@ -130,11 +129,11 @@ int getDaysInMonth(int userYear, int userMonth)
 			days = 28;
 		}
 	}
-
 	else if (userMonth == 4 || userMonth == 6 || userMonth == 9 || userMonth == 11)
 	{
 		days = 30;
 	}
+
 	return days;
 }
 
@@ -148,7 +147,7 @@ int getOffset(int userMonth, int userYear)
 		// Figure out how many days are in each year
 			for (int currentYear = 1753; currentYear < userYear; currentYear++)
 			{
-				numDays += getDaysInTheYear(currentYear);
+				numDays += getDaysInYear(currentYear);
 			}
 			for (int currentMonth = 1; currentMonth < userMonth; currentMonth++)
 			{
@@ -231,7 +230,7 @@ int main()
 	int offset = getOffset(userYear, userMonth);
 
 	// How many days are in the year
-	int daysInYear = getDaysInTheYear(userYear);
+	int daysInYear = getDaysInYear(userYear);
 
 	// How many days are in the year from Jan -> user Month
 	int totalDaysInMonthYear = getTotalMonthDays(userYear, userMonth);
